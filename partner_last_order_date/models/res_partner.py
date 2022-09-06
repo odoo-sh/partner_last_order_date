@@ -6,7 +6,7 @@ from odoo import models,fields,api
 class Partner(models.Model):
     _inherit = "res.partner"
 
-    date_of_last_order = fields.Date(string="Date of Last Order",compute="_compute_last_sale_confirm_date",store = True)
+    date_of_last_order = fields.Date(string="Date of Last Order",compute="_compute_last_sale_confirm_date",store = True,help="Date of Last Confirmed Sales Order for the Customer")
 
     @api.depends('sale_order_ids.state')
     def _compute_last_sale_confirm_date(self):
