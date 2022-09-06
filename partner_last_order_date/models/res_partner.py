@@ -10,7 +10,9 @@ class Partner(models.Model):
 
     @api.depends('sale_order_ids.state')
     def _compute_last_sale_confirm_date(self):
-        self.date_of_last_order = False
-        orders = self.sale_order_ids.filtered(lambda x :x.state in ('sale','done')).sorted(key='date_order', reverse=True)
-        if orders:
-            self.date_of_last_order = orders[0].date_order
+        for rec in self:
+            orders = rec.sale_order_ids.filtered(lambda x :x.state in ('sale','done')).sorted(key='date_order', reverse=True)
+            if orders:
+                rec.date_of_last_order = orders[0].date_order
+            else:
+                rec.date_of_last_order = False
